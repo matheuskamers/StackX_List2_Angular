@@ -3,6 +3,7 @@ import { UsersService } from './../../core/services/users/users.service';
 import { Component, OnInit } from '@angular/core';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -13,12 +14,19 @@ export class HomeComponent implements OnInit {
 
   loading = true;
   error = false;
-  dataUser: IUserData[] = []
+  dataUser: IUserData[] = [];
+  filter: any ='';
+  typeFilter = '';
 
   constructor(
     private matDialog: MatDialog,
     private UserService: UsersService
   ) { }
+
+  searchForm = new FormGroup({
+    nameStudent: new FormControl(''),
+    nationality: new FormControl('')
+  })
 
   ngOnInit(): void {
     this.getUser();
@@ -36,15 +44,17 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  openModal() {
+  openModal(userSelected: IUserData) {
     const dialogRef = this.matDialog.open(ModalComponent, {
       minWidth: 500,
       data: {
-        message: 'Hello World',
-        buttonText: {
-          cancel: 'Done'
-        }
+        userData: userSelected
       },
     });
+  }
+
+  searchValue(type: string) {
+      this.typeFilter = type;
+      this.filter = type === 'name' ? this.searchForm.get('nameStudent')!.value : this.searchForm.get('nationality')!.value;
   }
 }

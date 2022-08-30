@@ -8,8 +8,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ModalComponent {
 
-  message: string = ""
-  cancelButtonText = "Cancel"
   userData = {
     gender: '',
     name: {
@@ -33,12 +31,7 @@ export class ModalComponent {
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<ModalComponent>) {
     if (data) {
-        console.log(data)
         this.userData = data.userData;
-    //   this.message = data.message || this.message;
-    //   if (data.buttonText) {
-    //     this.cancelButtonText = data.buttonText.cancel || this.cancelButtonText;
-    //   }
     }
   }
 
